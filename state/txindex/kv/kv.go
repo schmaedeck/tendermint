@@ -341,7 +341,7 @@ func (txi *TxIndex) match(c query.Condition, startKey []byte) (hashes [][]byte) 
 		}
 	} else if c.Op == query.OpContains {
 		// XXX: startKey does not apply here.
-		// For example, if startKey = "account.owner/an/" and search query = "accoutn.owner CONTAINS an"
+		// For example, if startKey = "account.owner/an/" and search query = "account.owner CONTAINS an"
 		// we can't iterate with prefix "account.owner/an/" because we might miss keys like "account.owner/Ulan/"
 		it := dbm.IteratePrefix(txi.store, []byte(fmt.Sprintf("%s/", c.Tag)))
 		defer it.Close()
