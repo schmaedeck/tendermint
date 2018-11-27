@@ -340,10 +340,10 @@ func (txi *TxIndex) match(c query.Condition, startKey []byte) (hashes [][]byte) 
 			hashes = append(hashes, it.Value())
 		}
 	} else if c.Op == query.OpContains {
-		// XXX: doing full scan because startKey does not apply here
-		// For example, if startKey = "account.owner=an" and search query = "accoutn.owner CONSISTS an"
-		// we can't iterate with prefix "account.owner=an" because we might miss keys like "account.owner=Ulan"
-		it := txi.store.Iterator(nil, nil)
+		// XXX: startKey does not apply here.
+		// For example, if startKey = "account.owner/an/" and search query = "accoutn.owner CONTAINS an"
+		// we can't iterate with prefix "account.owner/an/" because we might miss keys like "account.owner/Ulan/"
+		it := dbm.IteratePrefix(txi.store, []byte(fmt.Sprintf("%s/", c.Tag)))
 		defer it.Close()
 		for ; it.Valid(); it.Next() {
 			if !isTagKey(it.Key()) {

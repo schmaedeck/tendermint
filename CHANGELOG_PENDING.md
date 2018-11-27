@@ -26,3 +26,5 @@ program](https://hackerone.com/tendermint).
 ### IMPROVEMENTS:
 
 ### BUG FIXES:
+
+- [kv indexer] \#2912 don't ignore key when executing CONTAINS
